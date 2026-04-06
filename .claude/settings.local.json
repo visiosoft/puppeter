@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(node preview.js)",
+      "Bash(node preview.js --list)",
+      "Bash(node -e \"require\\(''./src/utils/postPicker''\\); require\\(''./src/utils/imagePicker''\\); require\\(''./src/utils/groupLoader''\\); require\\(''./src/utils/logger''\\); require\\(''./src/utils/browser''\\); require\\(''./src/modules/content-variation''\\); require\\(''./src/modules/posting-assistant''\\); console.log\\(''All modules loaded OK''\\)\")",
+      "Bash(node run.js --account test --limit 1)",
+      "Bash(node -e \"require\\(''./src/modules/posting-assistant''\\); console.log\\(''OK''\\)\")"
+    ]
+  }
+}

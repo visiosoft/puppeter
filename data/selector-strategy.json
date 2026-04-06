@@ -1,0 +1,82 @@
+{
+  "triggerPattern": {
+    "tag": "div",
+    "role": "button",
+    "ariaLabel": "",
+    "placeholder": "",
+    "text": "write something...",
+    "lexical": ""
+  },
+  "composerPattern": {
+    "tag": "div",
+    "role": "textbox",
+    "ariaLabel": "",
+    "placeholder": "create a public post…",
+    "text": "",
+    "lexical": "true",
+    "contenteditable": "true"
+  },
+  "postButtonPattern": {
+    "tag": "div",
+    "role": "button",
+    "ariaLabel": "post",
+    "placeholder": "",
+    "contenteditable": "",
+    "text": "post"
+  },
+  "updatedAt": "2026-04-05T19:55:18.644Z",
+  "attachmentPattern": {
+    "inputSelector": "input[type=\"file\"][accept*=\"image\"]"
+  },
+  "selectors": {
+    "trigger": {
+      "source": "ai",
+      "pattern": {
+        "tag": "div",
+        "role": "button",
+        "ariaLabel": "",
+        "placeholder": "",
+        "text": "write something...",
+        "lexical": ""
+      }
+    },
+    "composer": {
+      "source": "ai",
+      "pattern": {
+        "tag": "div",
+        "role": "textbox",
+        "ariaLabel": "",
+        "placeholder": "create a public post…",
+        "text": "",
+        "lexical": "true",
+        "contenteditable": "true"
+      },
+      "mode": "inline composer",
+      "rootSelector": "[data-copilot-post-root=\"true\"]",
+      "editorSelector": "[data-copilot-post-editor=\"true\"]"
+    },
+    "submit": {
+      "pattern": {
+        "tag": "div",
+        "role": "button",
+        "ariaLabel": "post",
+        "placeholder": "",
+        "contenteditable": "",
+        "text": "post"
+      }
+    },
+    "attachment": {
+      "method": "direct-input",
+      "pattern": {
+        "inputSelector": "input[type=\"file\"][accept*=\"image\"]"
+      }
+    }
+  },
+  "lastSuccess": {
+    "at": "2026-04-05T19:42:59.835Z",
+    "groupUrl": "https://www.facebook.com/groups/1082113493655330",
+    "accountLabel": "test",
+    "imageAttached": true,
+    "imageFilename": "1773133437301.png"
+  }
+}

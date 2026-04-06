@@ -1,0 +1,22 @@
+{
+  "name": "puppeter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node run.js",
+    "preview": "node preview.js",
+    "preview:list": "node preview.js --list",
+    "stats": "node run.js --stats"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.82.0",
+    "@puppeteer/browsers": "^2.13.0",
+    "dotenv": "^17.4.0",
+    "puppeteer": "^24.40.0",
+    "puppeteer-core": "^24.40.0"
+  }
+}

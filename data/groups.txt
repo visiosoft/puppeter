@@ -1,0 +1,10 @@
+# Facebook Group URLs — one per line
+# Lines starting with # are ignored
+# Format: paste the full group URL
+# Example:
+# https://www.facebook.com/groups/123456789
+https://www.facebook.com/groups/1082113493655330
+https://www.facebook.com/groups/3107984135917675
+https://www.facebook.com/groups/116785759019866
+https://www.facebook.com/groups/119193998719316
+https://www.facebook.com/groups/566819252406079
