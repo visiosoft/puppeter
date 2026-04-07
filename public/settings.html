@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Facebook Posting Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="shell">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">Step 2</p>
+                <h1>Account Settings And Run</h1>
+                <p class="hero-copy">Pick one saved account, then set its groups and post text here. This page is only
+                    for the selected account.</p>
+            </div>
+            <div class="hero-actions">
+                <a href="/accounts.html" class="button button-muted nav-button">Manage Accounts</a>
+                <label class="mode-picker">
+                    <span>Mode</span>
+                    <select id="runModeSelect">
+                        <option value="dashboard">Dashboard</option>
+                        <option value="test">Test</option>
+                    </select>
+                </label>
+                <button id="saveConfigButton" class="button button-primary">Save Settings</button>
+                <button id="startRunButton" class="button button-accent">Start</button>
+                <button id="stopRunButton" class="button button-muted">Stop</button>
+            </div>
+        </header>
+
+        <main class="grid">
+            <section class="panel panel-full">
+                <div class="panel-header compact">
+                    <div>
+                        <p class="panel-kicker">Selected Account</p>
+                        <h2>Choose Which Account You Are Editing</h2>
+                        <p class="workspace-help">Everything below is saved only for the account selected here.</p>
+                    </div>
+                    <span id="selectedAccountBadge" class="meta-pill">No account selected</span>
+                </div>
+                <div class="selector-row">
+                    <label class="selector-field">
+                        <span>Account</span>
+                        <select id="accountSelect"></select>
+                    </label>
+                    <a href="/accounts.html" class="button button-secondary nav-button">Add Or Edit Accounts</a>
+                </div>
+            </section>
+
+            <section class="panel panel-wide">
+                <div class="panel-header compact nested-header">
+                    <div>
+                        <p class="panel-kicker">Groups</p>
+                        <h2>Groups For Selected Account</h2>
+                    </div>
+                </div>
+                <textarea id="groupPasteInput" class="paste-box"
+                    placeholder="Paste one Facebook group URL per line for the selected account"></textarea>
+                <div class="inline-actions">
+                    <button id="appendGroupsButton" class="button button-secondary">Append</button>
+                    <button id="replaceGroupsButton" class="button button-muted">Replace All</button>
+                    <span id="groupCountLabel" class="meta-pill">0 groups</span>
+                </div>
+                <div id="groupList" class="group-list"></div>
+            </section>
+
+            <section class="panel panel-wide">
+                <div class="panel-header compact nested-header">
+                    <div>
+                        <p class="panel-kicker">Post</p>
+                        <h2>Post Text For Selected Account</h2>
+                    </div>
+                </div>
+                <div class="editor-toolbar">
+                    <button class="tool" data-command="bold" type="button">Bold</button>
+                    <button class="tool" data-command="italic" type="button">Italic</button>
+                    <button class="tool" data-command="insertUnorderedList" type="button">Bullets</button>
+                    <button class="tool" data-command="formatBlock" data-value="blockquote" type="button">Quote</button>
+                    <button class="tool" data-command="removeFormat" type="button">Clear</button>
+                </div>
+                <div id="postEditor" class="editor" contenteditable="true"></div>
+                <p class="panel-note">Only this selected account uses this post text.</p>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header compact">
+                    <div>
+                        <p class="panel-kicker">Limits</p>
+                        <h2>Run Settings</h2>
+                    </div>
+                </div>
+                <div class="field-grid">
+                    <label>
+                        <span>Total groups per run</span>
+                        <input id="sessionLimitInput" type="number" min="1">
+                    </label>
+                    <label>
+                        <span>Rotate account after</span>
+                        <input id="rotateEveryInput" type="number" min="1">
+                    </label>
+                    <label>
+                        <span>Delay min (seconds)</span>
+                        <input id="delayMinInput" type="number" min="1">
+                    </label>
+                    <label>
+                        <span>Delay max (seconds)</span>
+                        <input id="delayMaxInput" type="number" min="1">
+                    </label>
+                    <label>
+                        <span>Dashboard port</span>
+                        <input id="dashboardPortInput" type="number" min="1024">
+                    </label>
+                </div>
+            </section>
+
+            <section class="panel panel-wide">
+                <div class="panel-header compact">
+                    <div>
+                        <p class="panel-kicker">Status</p>
+                        <h2>Run Monitor</h2>
+                    </div>
+                    <span id="runStateBadge" class="state-badge idle">Idle</span>
+                </div>
+                <div class="status-grid">
+                    <article class="status-card">
+                        <span>Total target</span>
+                        <strong id="statusTarget">0</strong>
+                    </article>
+                    <article class="status-card">
+                        <span>Processed</span>
+                        <strong id="statusProcessed">0</strong>
+                    </article>
+                    <article class="status-card">
+                        <span>Posted</span>
+                        <strong id="statusSuccess">0</strong>
+                    </article>
+                    <article class="status-card">
+                        <span>Skipped</span>
+                        <strong id="statusSkipped">0</strong>
+                    </article>
+                </div>
+                <div class="status-details">
+                    <div>
+                        <span class="detail-label">Current account</span>
+                        <strong id="currentAccountLabel">-</strong>
+                    </div>
+                    <div>
+                        <span class="detail-label">Current group</span>
+                        <strong id="currentGroupLabel">-</strong>
+                    </div>
+                    <div>
+                        <span class="detail-label">Remaining</span>
+                        <strong id="remainingLabel">0</strong>
+                    </div>
+                </div>
+                <div id="statusMessage" class="status-message">Settings page ready.</div>
+                <div id="eventFeed" class="event-feed"></div>
+            </section>
+        </main>
+
+        <template id="groupItemTemplate">
+            <div class="group-row">
+                <span class="group-url"></span>
+                <button class="button button-link remove-group" type="button">Remove</button>
+            </div>
+        </template>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+
+</html>

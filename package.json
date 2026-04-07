@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node run.js",
+    "dashboard": "node dashboard.js",
     "preview": "node preview.js",
     "preview:list": "node preview.js --list",
     "stats": "node run.js --stats"
@@ -16,6 +17,7 @@
     "@anthropic-ai/sdk": "^0.82.0",
     "@puppeteer/browsers": "^2.13.0",
     "dotenv": "^17.4.0",
+    "express": "^5.2.1",
     "puppeteer": "^24.40.0",
     "puppeteer-core": "^24.40.0"
   }

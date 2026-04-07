@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounts - Facebook Posting Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="shell">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">Step 1</p>
+                <h1>Facebook Accounts</h1>
+                <p class="hero-copy">Create each Facebook account here first. After saving, open the settings page to
+                    assign groups and post text for that account.</p>
+            </div>
+            <div class="hero-actions">
+                <a href="/settings.html" class="button button-muted nav-button">Go To Settings</a>
+                <button id="saveConfigButton" class="button button-primary">Save Accounts</button>
+                <button id="addAccountButton" class="button button-secondary">Add Account</button>
+            </div>
+        </header>
+
+        <main class="grid">
+            <section class="panel panel-full">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-kicker">Accounts</p>
+                        <h2>Create And Maintain Accounts</h2>
+                        <p class="workspace-help">Use “Open Settings” on any row to jump directly to that account’s
+                            groups and post configuration page.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Settings</th>
+                                <th>Use</th>
+                                <th>Label</th>
+                                <th>Email / Username</th>
+                                <th>Password</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="accountsTableBody"></tbody>
+                    </table>
+                </div>
+                <p class="panel-note">Accounts are saved locally in <strong>data/dashboard-config.json</strong>.</p>
+            </section>
+        </main>
+
+        <div id="statusMessage" class="status-message standalone-status">Accounts page ready.</div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+
+</html>

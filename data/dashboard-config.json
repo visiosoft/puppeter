@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "accounts": [
+    {
+      "id": "default",
+      "label": "default",
+      "username": "nk6459454@gmail.com",
+      "password": "nimra@123",
+      "enabled": true,
+      "groups": [
+        "https://www.facebook.com/groups/3107984135917675",
+        "https://www.facebook.com/groups/116785759019866",
+        "https://www.facebook.com/groups/119193998719316",
+        "https://www.facebook.com/groups/566819252406079"
+      ],
+      "post": {
+        "html": "Van Rental Company (Monthly &amp; Weekly)<br><br>Weekly &amp; Monthly Van Rental Services<br><br>Flexible Van Rentals – Available Weekly or Monthly<br><br>Van Hire Solutions for Weekly and Monthly Needs<br><br>Affordable Van Rentals – Weekly &amp; Monthly Plans<br><br>Short &amp; Long-Term Van Rental Services (Weekly/Monthly)<br><br>Reliable Van Rentals – Weekly &amp; Monthly Options<br><br>Rent a Van Weekly or Monthly – Easy &amp; Convenient<br><br>Your Go-To Van Rental for Weekly &amp; Monthly Plans<br><br>Flexible Van Hire – Weekly and Monthly Packages<br><br>Convenient Van Rental Plans – Weekly or Monthly<br><br>Budget-Friendly Van Rentals – Weekly &amp; Monthly Rates<br><br>Weekly &amp; Monthly Van Hire You Can Trust<br><br>Smart Van Rental Choices – Weekly &amp; Monthly<br><br>On-Demand Van Rentals – Weekly &amp; Monthly Availability<br><br>Affordable Weekly &amp; Monthly Van Hire Services<br><br>Premium Van Rentals – Weekly &amp; Monthly Offers<br><br>Hassle-Free Van Rental – Weekly or Monthly Plans<br><br>Choose Your Plan – Weekly &amp; Monthly Van Rentals<br><br>Dependable Van Hire – Short &amp; Long-Term Options<br><br>Best Value Van Rentals – Weekly &amp; Monthly Packages<br><br>Fast &amp; Flexible Van Rental – Weekly &amp; Monthly<br><br>Van Rentals That Fit Your Schedule – Weekly &amp; Monthly<br><br>Flexible Hire Vans – Weekly &amp; Monthly Pricing<br><br>Drive More, Pay Less – Weekly &amp; Monthly Van Rentals",
+        "text": "Van Rental Company (Monthly & Weekly)\n\nWeekly & Monthly Van Rental Services\n\nFlexible Van Rentals – Available Weekly or Monthly\n\nVan Hire Solutions for Weekly and Monthly Needs\n\nAffordable Van Rentals – Weekly & Monthly Plans\n\nShort & Long-Term Van Rental Services (Weekly/Monthly)\n\nReliable Van Rentals – Weekly & Monthly Options\n\nRent a Van Weekly or Monthly – Easy & Convenient\n\nYour Go-To Van Rental for Weekly & Monthly Plans\n\nFlexible Van Hire – Weekly and Monthly Packages\n\nConvenient Van Rental Plans – Weekly or Monthly\n\nBudget-Friendly Van Rentals – Weekly & Monthly Rates\n\nWeekly & Monthly Van Hire You Can Trust\n\nSmart Van Rental Choices – Weekly & Monthly\n\nOn-Demand Van Rentals – Weekly & Monthly Availability\n\nAffordable Weekly & Monthly Van Hire Services\n\nPremium Van Rentals – Weekly & Monthly Offers\n\nHassle-Free Van Rental – Weekly or Monthly Plans\n\nChoose Your Plan – Weekly & Monthly Van Rentals\n\nDependable Van Hire – Short & Long-Term Options\n\nBest Value Van Rentals – Weekly & Monthly Packages\n\nFast & Flexible Van Rental – Weekly & Monthly\n\nVan Rentals That Fit Your Schedule – Weekly & Monthly\n\nFlexible Hire Vans – Weekly & Monthly Pricing\n\nDrive More, Pay Less – Weekly & Monthly Van Rentals"
+      }
+    },
+    {
+      "id": "test",
+      "label": "test",
+      "username": "mikasaackerman30aot@gmail.com",
+      "password": "nimra@12",
+      "enabled": true,
+      "groups": [
+        "https://www.facebook.com/groups/1082113493655330",
+        "https://www.facebook.com/groups/3107984135917675",
+        "https://www.facebook.com/groups/116785759019866",
+        "https://www.facebook.com/groups/119193998719316",
+        "https://www.facebook.com/groups/566819252406079"
+      ],
+      "post": {
+        "html": "Van Rental Company (Monthly &amp; Weekly)<br><br>Weekly &amp; Monthly Van Rental Services<br><br>Flexible Van Rentals – Available Weekly or Monthly<br><br>Van Hire Solutions for Weekly and Monthly Needs<br><br>Affordable Van Rentals – Weekly &amp; Monthly Plans<br><br>Short &amp; Long-Term Van Rental Services (Weekly/Monthly)<br><br>Reliable Van Rentals – Weekly &amp; Monthly Options<br><br>",
+        "text": "Van Rental Company (Monthly & Weekly)\n\nWeekly & Monthly Van Rental Services\n\nFlexible Van Rentals – Available Weekly or Monthly\n\nVan Hire Solutions for Weekly and Monthly Needs\n\nAffordable Van Rentals – Weekly & Monthly Plans\n\nShort & Long-Term Van Rental Services (Weekly/Monthly)\n\nReliable Van Rentals – Weekly & Monthly Options"
+      }
+    },
+    {
+      "id": "account-1775537989889-3",
+      "label": "Account 3",
+      "username": "",
+      "password": "",
+      "enabled": true,
+      "groups": [],
+      "post": {
+        "html": "",
+        "text": ""
+      }
+    }
+  ],
+  "groups": [
+    "https://www.facebook.com/groups/1082113493655330",
+    "https://www.facebook.com/groups/3107984135917675",
+    "https://www.facebook.com/groups/116785759019866",
+    "https://www.facebook.com/groups/119193998719316",
+    "https://www.facebook.com/groups/566819252406079"
+  ],
+  "post": {
+    "html": "Van Rental Company (Monthly &amp; Weekly)<br><br>Weekly &amp; Monthly Van Rental Services<br><br>Flexible Van Rentals – Available Weekly or Monthly<br><br>Van Hire Solutions for Weekly and Monthly Needs<br><br>Affordable Van Rentals – Weekly &amp; Monthly Plans<br><br>Short &amp; Long-Term Van Rental Services (Weekly/Monthly)<br><br>Reliable Van Rentals – Weekly &amp; Monthly Options<br><br>Rent a Van Weekly or Monthly – Easy &amp; Convenient<br><br>Your Go-To Van Rental for Weekly &amp; Monthly Plans<br><br>Flexible Van Hire – Weekly and Monthly Packages<br><br>Convenient Van Rental Plans – Weekly or Monthly<br><br>Budget-Friendly Van Rentals – Weekly &amp; Monthly Rates<br><br>Weekly &amp; Monthly Van Hire You Can Trust<br><br>Smart Van Rental Choices – Weekly &amp; Monthly<br><br>On-Demand Van Rentals – Weekly &amp; Monthly Availability<br><br>Affordable Weekly &amp; Monthly Van Hire Services<br><br>Premium Van Rentals – Weekly &amp; Monthly Offers<br><br>Hassle-Free Van Rental – Weekly or Monthly Plans<br><br>Choose Your Plan – Weekly &amp; Monthly Van Rentals<br><br>Dependable Van Hire – Short &amp; Long-Term Options<br><br>Best Value Van Rentals – Weekly &amp; Monthly Packages<br><br>Fast &amp; Flexible Van Rental – Weekly &amp; Monthly<br><br>Van Rentals That Fit Your Schedule – Weekly &amp; Monthly<br><br>Flexible Hire Vans – Weekly &amp; Monthly Pricing<br><br>Drive More, Pay Less – Weekly &amp; Monthly Van Rentals",
+    "text": "Van Rental Company (Monthly & Weekly)\n\nWeekly & Monthly Van Rental Services\n\nFlexible Van Rentals – Available Weekly or Monthly\n\nVan Hire Solutions for Weekly and Monthly Needs\n\nAffordable Van Rentals – Weekly & Monthly Plans\n\nShort & Long-Term Van Rental Services (Weekly/Monthly)\n\nReliable Van Rentals – Weekly & Monthly Options\n\nRent a Van Weekly or Monthly – Easy & Convenient\n\nYour Go-To Van Rental for Weekly & Monthly Plans\n\nFlexible Van Hire – Weekly and Monthly Packages\n\nConvenient Van Rental Plans – Weekly or Monthly\n\nBudget-Friendly Van Rentals – Weekly & Monthly Rates\n\nWeekly & Monthly Van Hire You Can Trust\n\nSmart Van Rental Choices – Weekly & Monthly\n\nOn-Demand Van Rentals – Weekly & Monthly Availability\n\nAffordable Weekly & Monthly Van Hire Services\n\nPremium Van Rentals – Weekly & Monthly Offers\n\nHassle-Free Van Rental – Weekly or Monthly Plans\n\nChoose Your Plan – Weekly & Monthly Van Rentals\n\nDependable Van Hire – Short & Long-Term Options\n\nBest Value Van Rentals – Weekly & Monthly Packages\n\nFast & Flexible Van Rental – Weekly & Monthly\n\nVan Rentals That Fit Your Schedule – Weekly & Monthly\n\nFlexible Hire Vans – Weekly & Monthly Pricing\n\nDrive More, Pay Less – Weekly & Monthly Van Rentals"
+  },
+  "settings": {
+    "sessionLimit": 6,
+    "rotateEvery": 5,
+    "delayMinMs": 45000,
+    "delayMaxMs": 120000,
+    "dashboardPort": 3010
+  }
+}

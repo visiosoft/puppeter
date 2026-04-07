@@ -19,11 +19,13 @@ const TRIGGER_DEBUG_FILE = path.join(__dirname, '../../data/trigger-debug.json')
  * @param {string} groupUrl     - Facebook group URL
  * @param {string} accountLabel - Account identifier for logging
  */
-async function postToGroup(page, groupUrl, accountLabel) {
+async function postToGroup(page, groupUrl, accountLabel, options = {}) {
   console.log(`\n[posting] Opening group: ${groupUrl}`);
 
-  // Get random post content + image
-  const content = getNextContent();
+  // Get post content + image (sequential or random based on config)
+  const content = typeof options.getContent === 'function'
+    ? options.getContent()
+    : (options.content || getNextContent({ accountLabel }));
   console.log(`[posting] Post ${content.meta.postIndex}/${content.meta.totalPosts}: "${content.text.slice(0, 60)}..."`);
   if (content.imageFilename) {
     console.log(`[posting] Image: ${content.imageFilename}`);
@@ -121,6 +123,32 @@ async function postToGroup(page, groupUrl, accountLabel) {
   }
 }
 
+async function testGroupSetup(page, groupUrl) {
+  console.log(`\n[test] Opening group: ${groupUrl}`);
+
+  try {
+    await page.goto(groupUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await randomDelay(2500, 4500);
+    await humanScroll(page);
+    await randomDelay(1500, 3000);
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    await randomDelay(1000, 2000);
+
+    const composer = await openPostBox(page);
+    if (!composer) {
+      return { success: false, reason: 'Could not find post box for test.' };
+    }
+
+    return {
+      success: true,
+      mode: composer.mode,
+      source: composer.source,
+    };
+  } catch (err) {
+    return { success: false, reason: err.message };
+  }
+}
+
 async function submitPost(page, composer) {
   await writeSubmitDebugSnapshot(page, composer, 'before_submit_selection');
 
@@ -136,7 +164,7 @@ async function submitPostWithHeuristics(page, composer) {
   const result = await page.evaluate(({ rootSelector, learnedPattern, submitTargetAttr }) => {
     const root = document.querySelector(rootSelector);
     if (!root) {
-      return { success: false };
+      return { success: false, reason: 'composer_root_not_found' };
     }
 
     document.querySelectorAll(`[${submitTargetAttr}]`).forEach(el => el.removeAttribute(submitTargetAttr));
@@ -206,11 +234,11 @@ async function submitPostWithHeuristics(page, composer) {
 
     const target = controls.find(item => item.score > 0);
     if (!target) {
-      return { success: false };
+      return { success: false, reason: 'no_post_button_found' };
     }
 
     target.control.setAttribute(submitTargetAttr, 'true');
-    return { success: true, pattern: target.pattern };
+    return { success: true, source: 'heuristic', pattern: target.pattern };
   }, { ...composer, learnedPattern: strategy.postButtonPattern || null, submitTargetAttr: SUBMIT_TARGET_ATTR });
 
   if (result.success) {
@@ -218,9 +246,10 @@ async function submitPostWithHeuristics(page, composer) {
     if (clicked) {
       return result;
     }
+    return { success: false, reason: 'post_button_click_failed', source: 'heuristic' };
   }
 
-  return result;
+  return { ...result, source: 'heuristic' };
 }
 
 async function clickPreparedSubmitTarget(page) {
@@ -646,7 +675,7 @@ async function clickCreatePostTriggerWithHeuristics(page) {
     return { success: true, source: 'heuristic', pattern: target.pattern };
   }, strategy.triggerPattern || null);
 
-  return clicked.success ? clicked : null;
+  return clicked.success ? clicked : { success: false, reason: 'no_trigger_found_by_heuristics', source: 'heuristic' };
 }
 
 async function identifyComposer(page) {
@@ -835,13 +864,33 @@ async function identifyComposerWithHeuristics(page) {
     };
   }, strategy.composerPattern || null);
 
-  return composer;
+  return composer || { success: false, reason: 'no_composer_found_by_heuristics', source: 'heuristic' };
 }
 
 async function preferAISelection(label, tryAI, tryHeuristics) {
+  // Check if AI-first mode is enabled
+  const useAIFirst = process.env.USE_AI_FIRST !== 'false';
+
+  if (!useAIFirst) {
+    console.log(`[posting] AI-first mode disabled, using heuristics for ${label}`);
+    return tryHeuristics();
+  }
+
   const aiResult = await tryAI();
   if (isSuccessfulSelection(aiResult)) {
     return aiResult;
+  }
+
+  // Log the reason for AI failure
+  const failReason = aiResult && aiResult.reason ? aiResult.reason : 'unknown';
+  console.log(`[posting] AI ${label} selection failed: ${failReason}`);
+
+  // Check if heuristics fallback is enabled
+  const useHeuristicsFallback = process.env.USE_HEURISTICS_FALLBACK !== 'false';
+
+  if (!useHeuristicsFallback) {
+    console.log(`[posting] Heuristics fallback is disabled`);
+    return { success: false, reason: 'ai_failed_no_fallback', source: 'none' };
   }
 
   console.log(`[posting] Falling back to heuristic ${label} selection`);
@@ -862,20 +911,20 @@ function isSuccessfulSelection(result) {
 
 async function clickCreatePostTriggerWithAI(page) {
   if (!hasDeepSeekConfig()) {
-    return false;
+    return { success: false, reason: 'no_deepseek_api_key_configured' };
   }
 
   try {
     const snapshot = await captureDomSnapshot(page, 'trigger');
     if (!snapshot.candidates.length) {
       await writeTriggerDebugSnapshot(page, 'no_trigger_candidates');
-      return false;
+      return { success: false, reason: 'no_trigger_candidates_found' };
     }
 
     const choice = await chooseFacebookPostTarget(snapshot, 'trigger');
     if (!choice) {
       await writeTriggerDebugSnapshot(page, 'deepseek_returned_none_for_trigger');
-      return false;
+      return { success: false, reason: 'deepseek_api_returned_none' };
     }
 
     const clicked = await page.evaluate(candidateId => {
@@ -904,28 +953,28 @@ async function clickCreatePostTriggerWithAI(page) {
       console.log(`[posting] DeepSeek selected trigger ${choice.candidateId}${choice.reason ? `: ${choice.reason}` : ''}`);
       return clicked;
     }
+    return { success: false, reason: 'trigger_element_not_found_in_dom' };
   } catch (err) {
-    console.log(`[posting] DeepSeek trigger selection failed, falling back: ${err.message}`);
+    console.log(`[posting] DeepSeek trigger selection error: ${err.message}`);
     await writeTriggerDebugSnapshot(page, 'deepseek_trigger_error');
+    return { success: false, reason: `deepseek_api_error: ${err.message}` };
   }
-
-  return false;
 }
 
 async function identifyComposerWithAI(page) {
   if (!hasDeepSeekConfig()) {
-    return null;
+    return { success: false, reason: 'no_deepseek_api_key_configured' };
   }
 
   try {
     const snapshot = await captureDomSnapshot(page, 'composer');
     if (!snapshot.candidates.length) {
-      return null;
+      return { success: false, reason: 'no_composer_candidates_found' };
     }
 
     const choice = await chooseFacebookPostTarget(snapshot, 'composer');
     if (!choice) {
-      return null;
+      return { success: false, reason: 'deepseek_api_returned_none' };
     }
 
     const composer = await page.evaluate(candidateId => {
@@ -1035,27 +1084,27 @@ async function identifyComposerWithAI(page) {
       console.log(`[posting] DeepSeek selected composer ${choice.candidateId}${choice.reason ? `: ${choice.reason}` : ''}`);
       return composer;
     }
+    return { success: false, reason: 'composer_element_not_editable_or_invalid' };
   } catch (err) {
-    console.log(`[posting] DeepSeek composer selection failed, falling back: ${err.message}`);
+    console.log(`[posting] DeepSeek composer selection error: ${err.message}`);
+    return { success: false, reason: `deepseek_api_error: ${err.message}` };
   }
-
-  return null;
 }
 
 async function submitPostWithAI(page, composer) {
   if (!hasDeepSeekConfig()) {
-    return { success: false };
+    return { success: false, reason: 'no_deepseek_api_key_configured' };
   }
 
   try {
     const snapshot = await captureDomSnapshot(page, 'submit', composer.rootSelector);
     if (!snapshot.candidates.length) {
-      return { success: false };
+      return { success: false, reason: 'no_submit_button_candidates_found' };
     }
 
     const choice = await chooseFacebookPostTarget(snapshot, 'submit');
     if (!choice) {
-      return { success: false };
+      return { success: false, reason: 'deepseek_api_returned_none' };
     }
 
     const result = await page.evaluate(({ candidateId, submitTargetAttr }) => {
@@ -1090,12 +1139,13 @@ async function submitPostWithAI(page, composer) {
       if (clicked) {
         return result;
       }
+      return { success: false, reason: 'submit_button_click_failed' };
     }
+    return { success: false, reason: 'submit_button_not_clickable_or_invalid' };
   } catch (err) {
-    console.log(`[posting] DeepSeek submit selection failed, falling back: ${err.message}`);
+    console.log(`[posting] DeepSeek submit selection error: ${err.message}`);
+    return { success: false, reason: `deepseek_api_error: ${err.message}` };
   }
-
-  return { success: false };
 }
 
 async function captureDomSnapshot(page, phase, rootSelector = null) {
@@ -1279,4 +1329,4 @@ async function captureDomSnapshot(page, phase, rootSelector = null) {
   }, { currentPhase: phase, scopedRootSelector: rootSelector });
 }
 
-module.exports = { postToGroup };
+module.exports = { postToGroup, testGroupSetup };

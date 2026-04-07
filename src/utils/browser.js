@@ -22,8 +22,16 @@ function getSessionFile(accountLabel) {
  * @param {string} accountLabel - e.g. "account1", "john", "team_member_1"
  * @returns {{ browser, page }}
  */
-async function launchBrowser(accountLabel = 'default') {
-  console.log(`\n[browser] Launching browser for account: ${accountLabel}`);
+async function launchBrowser(accountLabel = 'default', options = {}) {
+  const {
+    displayLabel = accountLabel,
+    username = '',
+    password = '',
+    manualLoginFallback = true,
+    loginTimeoutMs = 120000,
+  } = options;
+
+  console.log(`\n[browser] Launching browser for account: ${displayLabel}`);
 
   const browser = await puppeteer.launch({
     headless: false,           // Always visible — human needs to interact
@@ -47,7 +55,7 @@ async function launchBrowser(accountLabel = 'default') {
   if (fs.existsSync(sessionFile)) {
     const cookies = JSON.parse(fs.readFileSync(sessionFile, 'utf-8'));
     await page.setCookie(...cookies);
-    console.log(`[browser] Session loaded for: ${accountLabel}`);
+    console.log(`[browser] Session loaded for: ${displayLabel}`);
   }
 
   // Navigate to Facebook
@@ -57,22 +65,42 @@ async function launchBrowser(accountLabel = 'default') {
   const isLoggedIn = await checkLoggedIn(page);
 
   if (!isLoggedIn) {
-    console.log(`\n[browser] ⚠️  Not logged in for account: ${accountLabel}`);
+    console.log(`\n[browser] Not logged in for account: ${displayLabel}`);
+
+    if (username && password) {
+      console.log('[browser] Attempting saved credential login...');
+      const credentialLoginWorked = await loginWithCredentials(page, { username, password, timeoutMs: loginTimeoutMs });
+
+      if (credentialLoginWorked) {
+        console.log('[browser] Credential login detected. Saving session...');
+        await saveSession(page, accountLabel);
+        console.log(`[browser] Session saved for: ${displayLabel}`);
+        return { browser, page };
+      }
+
+      if (!manualLoginFallback) {
+        throw new Error('Automatic login failed. Facebook may require a challenge or updated credentials.');
+      }
+    }
+
+    if (!manualLoginFallback) {
+      throw new Error('No valid saved session was found for this account.');
+    }
+
     console.log('[browser] Please log in manually in the browser window...');
     console.log('[browser] Waiting for login (up to 2 minutes)...\n');
 
-    // Wait until the user logs in (home feed appears)
     await page.waitForSelector('[aria-label="Facebook"], [data-pagelet="LeftRail"]', {
-      timeout: 120000,
+      timeout: loginTimeoutMs,
     }).catch(() => {
       throw new Error('Login timeout. Please run again and log in within 2 minutes.');
     });
 
     console.log('[browser] Login detected! Saving session...');
     await saveSession(page, accountLabel);
-    console.log(`[browser] Session saved for: ${accountLabel}`);
+    console.log(`[browser] Session saved for: ${displayLabel}`);
   } else {
-    console.log(`[browser] Already logged in as: ${accountLabel}`);
+    console.log(`[browser] Already logged in as: ${displayLabel}`);
   }
 
   return { browser, page };
@@ -104,12 +132,58 @@ async function checkLoggedIn(page) {
   }
 }
 
+async function loginWithCredentials(page, { username, password, timeoutMs = 45000 }) {
+  try {
+    await page.waitForSelector('#email, input[name="email"]', { timeout: 15000 });
+    await clearAndType(page, '#email, input[name="email"]', username);
+    await clearAndType(page, '#pass, input[name="pass"]', password);
+
+    const loginButton = await page.$('[data-testid="royal_login_button"], #loginbutton, button[name="login"], [name="login"]');
+    if (!loginButton) {
+      return false;
+    }
+
+    await Promise.allSettled([
+      page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: timeoutMs }),
+      loginButton.click({ delay: 120 }),
+    ]);
+
+    const started = Date.now();
+    while (Date.now() - started < timeoutMs) {
+      if (await checkLoggedIn(page)) {
+        return true;
+      }
+
+      if (await page.$('[id="approvals_code"], input[name="approvals_code"], [action*="checkpoint"], [data-pagelet="Checkpoint"], [data-testid="login_error"]')) {
+        return false;
+      }
+
+      await page.waitForSelector('body', { timeout: 1500 }).catch(() => { });
+    }
+
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+async function clearAndType(page, selector, value) {
+  const input = await page.$(selector);
+  if (!input) {
+    throw new Error(`Missing input: ${selector}`);
+  }
+
+  await input.click({ clickCount: 3 });
+  await page.keyboard.press('Backspace');
+  await input.type(value, { delay: 60 });
+}
+
 /**
  * Closes the browser and optionally saves the session.
  */
 async function closeBrowser(browser, page, accountLabel) {
   if (page && accountLabel) {
-    await saveSession(page, accountLabel).catch(() => {});
+    await saveSession(page, accountLabel).catch(() => { });
   }
   await browser.close();
 }

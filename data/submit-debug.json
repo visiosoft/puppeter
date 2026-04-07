@@ -1,6 +1,6 @@
 {
   "reason": "before_submit_selection",
-  "at": "2026-04-06T11:51:37.529Z",
+  "at": "2026-04-07T05:33:59.603Z",
   "rootSelector": "[data-copilot-post-root=\"true\"]",
   "editorSelector": "[data-copilot-post-editor=\"true\"]",
   "candidates": [
@@ -12,11 +12,11 @@
       "placeholder": "Create a public post…",
       "lexical": "true",
       "contenteditable": "true",
-      "text": "Create a public post… Van Rental Company (Monthly & Weekly)",
-      "parentText": "Van Rental Company (Monthly & Weekly)",
-      "context": "Create postMikasa ErenPublic groupVan Rental Company (Monthly & Weekly)EditAdd to your postPost",
-      "top": 192,
-      "left": 398,
+      "text": "Create a public post… Flexible Van Hire – Weekly and Monthly Packages",
+      "parentText": "Flexible Van Hire – Weekly and Monthly Packages",
+      "context": "Create postPost anonymouslyMikasa ErenPublic groupFlexible Van Hire – Weekly and Monthly PackagesEditAdd to your postPost",
+      "top": 258,
+      "left": 77,
       "width": 448,
       "height": 20
     },
@@ -30,9 +30,9 @@
       "contenteditable": "",
       "text": "Remove Post Attachment",
       "parentText": "",
-      "context": "Create postMikasa ErenPublic groupVan Rental Company (Monthly & Weekly)EditAdd to your postPost",
-      "top": 248,
-      "left": 823,
+      "context": "Create postPost anonymouslyMikasa ErenPublic groupFlexible Van Hire – Weekly and Monthly PackagesEditAdd to your postPost",
+      "top": 314,
+      "left": 502,
       "width": 29,
       "height": 29
     },
@@ -46,15 +46,15 @@
       "contenteditable": "",
       "text": "Post Post",
       "parentText": "Post",
-      "context": "Create postMikasa ErenPublic groupVan Rental Company (Monthly & Weekly)EditAdd to your postPost",
-      "top": 603,
-      "left": 398,
+      "context": "Create postPost anonymouslyMikasa ErenPublic groupFlexible Van Hire – Weekly and Monthly PackagesEditAdd to your postPost",
+      "top": 602,
+      "left": 77,
       "width": 468,
       "height": 36
     }
   ],
   "page": {
-    "title": "(20+) Rent a Car Dubai | Facebook",
-    "url": "https://www.facebook.com/groups/119193998719316"
+    "title": "(20+) Rent A Car in Abu dhabi | Facebook",
+    "url": "https://www.facebook.com/groups/566819252406079"
   }
 }

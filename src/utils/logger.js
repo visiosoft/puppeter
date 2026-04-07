@@ -18,19 +18,33 @@ function loadLog() {
 function logPost({ groupUrl, accountLabel, postText, imageFilename }) {
   const log = loadLog();
   const now = new Date();
+  const today = now.toISOString().slice(0, 10);
+  const accountKey = String(accountLabel || 'default');
 
-  log[groupUrl] = {
-    lastPostedDate: now.toISOString().slice(0, 10),
+  const current = log[groupUrl] || {};
+  const accounts = { ...(current.accounts || {}) };
+
+  accounts[accountKey] = {
+    lastPostedDate: today,
     lastPostedAt: now.toISOString(),
-    account: accountLabel,
+    account: accountKey,
     postText: postText.slice(0, 80) + (postText.length > 80 ? '...' : ''),
     image: imageFilename || null,
+  };
+
+  log[groupUrl] = {
+    lastPostedDate: today,
+    lastPostedAt: now.toISOString(),
+    account: accountKey,
+    postText: postText.slice(0, 80) + (postText.length > 80 ? '...' : ''),
+    image: imageFilename || null,
+    accounts,
   };
 
   fs.writeFileSync(LOG_FILE, JSON.stringify(log, null, 2));
 
   // Also append to activity log
-  const line = `[${now.toISOString()}] POSTED | account=${accountLabel} | group=${groupUrl} | image=${imageFilename || 'none'}\n`;
+  const line = `[${now.toISOString()}] POSTED | account=${accountKey} | group=${groupUrl} | image=${imageFilename || 'none'}\n`;
   fs.appendFileSync(ACTIVITY_LOG, line);
 
   console.log(`[logger] ✓ Logged post to: ${groupUrl}`);

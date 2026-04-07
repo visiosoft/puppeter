@@ -1,10 +1,13 @@
-const { getRandomPost } = require('../utils/postPicker');
-const { getRandomImage } = require('../utils/imagePicker');
+const { getRandomPost, getSequentialPost } = require('../utils/postPicker');
+const { getRandomImage, getSequentialImage } = require('../utils/imagePicker');
 
 /**
- * Picks a random post + random image and returns them as a ready-to-use package.
- * Called before each group post in the posting assistant.
- *
+ * Picks content (post + image) for posting.
+ * 
+ * Modes:
+ * - sequential: Uses sequential rotation per account (recommended for different posts per group)
+ * - random: Picks random post and image each time
+ * 
  * Returns:
  * {
  *   text: "post message...",
@@ -14,13 +17,23 @@ const { getRandomImage } = require('../utils/imagePicker');
  * }
  */
 function getNextContent(options = {}) {
-  const { requireImage = false } = options;
+  const {
+    requireImage = false,
+    accountLabel = 'default',
+    mode = process.env.POST_SELECTION_MODE || 'sequential'  // 'sequential' or 'random'
+  } = options;
 
-  const post = getRandomPost();
+  // Select post based on mode
+  const post = mode === 'sequential'
+    ? getSequentialPost(accountLabel)
+    : getRandomPost();
 
+  // Select image based on mode
   let image = null;
   try {
-    image = getRandomImage();
+    image = mode === 'sequential'
+      ? getSequentialImage(accountLabel)
+      : getRandomImage();
   } catch (err) {
     if (requireImage) throw err;
     // Image folder empty or missing — post without image
