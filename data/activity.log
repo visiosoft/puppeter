@@ -36,3 +36,4 @@
 [2026-04-08T21:20:06.408Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame '587488B398BD143E6B45FB622A26C338'.
 [2026-04-08T21:32:07.854Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame '92C29F874876A55B17AC92CC68A5A640'.
 [2026-04-08T21:34:00.379Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame 'A62685DA073841EB0582BE03C86D9624'.
+[2026-04-08T21:40:23.577Z] POSTED | account=default | group=https://www.facebook.com/groups/3107984135917675 | image=ef799400-2580-11f1-a6d7-71770282411f.png
