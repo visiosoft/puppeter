@@ -33,3 +33,6 @@
 [2026-04-07T05:31:45.232Z] POSTED | account=default | group=https://www.facebook.com/groups/119193998719316 | image=ads2.png
 [2026-04-07T05:34:07.798Z] POSTED | account=default | group=https://www.facebook.com/groups/566819252406079 | image=ef799400-2580-11f1-a6d7-71770282411f.png
 [2026-04-07T05:34:43.467Z] SKIPPED | account=test | group=https://www.facebook.com/groups/1082113493655330 | reason=Attempted to use detached Frame 'C48ADBE3DB262078EEA301E8D671DF96'.
+[2026-04-08T21:20:06.408Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame '587488B398BD143E6B45FB622A26C338'.
+[2026-04-08T21:32:07.854Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame '92C29F874876A55B17AC92CC68A5A640'.
+[2026-04-08T21:34:00.379Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame 'A62685DA073841EB0582BE03C86D9624'.

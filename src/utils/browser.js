@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
+const { chooseFacebookAuthTarget, hasDeepSeekConfig } = require('../modules/ai-dom-selector');
 
 const SESSIONS_DIR = path.join(__dirname, '../../data/sessions');
 const FB_URL = 'https://www.facebook.com';
@@ -133,6 +134,13 @@ async function checkLoggedIn(page) {
 }
 
 async function loginWithCredentials(page, { username, password, timeoutMs = 45000 }) {
+  const useAIFirst = process.env.USE_AI_FIRST !== 'false';
+
+  if (useAIFirst && hasDeepSeekConfig()) {
+    console.log('[browser] AI-first login enabled. Selecting login controls with DeepSeek...');
+    return loginWithCredentialsAI(page, { username, password, timeoutMs });
+  }
+
   try {
     await page.waitForSelector('#email, input[name="email"]', { timeout: 15000 });
     await clearAndType(page, '#email, input[name="email"]', username);
@@ -165,6 +173,246 @@ async function loginWithCredentials(page, { username, password, timeoutMs = 4500
   } catch {
     return false;
   }
+}
+
+async function loginWithCredentialsAI(page, { username, password, timeoutMs = 45000 }) {
+  try {
+    await page.waitForSelector('body', { timeout: 15000 });
+    await page.waitForSelector('input, button, [role="button"]', { timeout: 15000 }).catch(() => { });
+
+    const emailTarget = await chooseLoginTarget(page, 'email');
+    const passwordTarget = await chooseLoginTarget(page, 'password');
+    const buttonTarget = await chooseLoginTarget(page, 'login');
+
+    if (!emailTarget || !passwordTarget || !buttonTarget) {
+      console.log('[browser] AI login selection did not find all required targets.');
+      return false;
+    }
+
+    await fillLoginCandidate(page, emailTarget.candidateId, username);
+    await fillLoginCandidate(page, passwordTarget.candidateId, password, true);
+    await clickLoginCandidate(page, buttonTarget.candidateId);
+
+    await Promise.allSettled([
+      page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: timeoutMs }),
+      page.waitForSelector('body', { timeout: 5000 }).catch(() => { }),
+    ]);
+
+    const started = Date.now();
+    while (Date.now() - started < timeoutMs) {
+      if (await checkLoggedIn(page)) {
+        console.log('[browser] AI-assisted login succeeded.');
+        return true;
+      }
+
+      if (await page.$('[id="approvals_code"], input[name="approvals_code"], [action*="checkpoint"], [data-pagelet="Checkpoint"], [data-testid="login_error"]')) {
+        return false;
+      }
+
+      await page.waitForSelector('body', { timeout: 1500 }).catch(() => { });
+    }
+
+    return false;
+  } catch (error) {
+    console.log(`[browser] AI login selection error: ${error.message}`);
+    return false;
+  }
+}
+
+async function chooseLoginTarget(page, phase) {
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
+    try {
+      const snapshot = await captureLoginDomSnapshot(page, phase);
+      if (!snapshot.candidates.length) {
+        console.log(`[browser] No ${phase} candidates found for AI login selection on attempt ${attempt}.`);
+        await page.waitForSelector('body', { timeout: 1200 }).catch(() => { });
+        await new Promise(resolve => setTimeout(resolve, 400));
+        continue;
+      }
+
+      console.log(`[browser] ${phase} candidate count for AI login: ${snapshot.candidates.length}`);
+      const choice = await chooseFacebookAuthTarget(snapshot, phase);
+      if (!choice) {
+        console.log(`[browser] DeepSeek did not select a ${phase} target on attempt ${attempt}.`);
+        await new Promise(resolve => setTimeout(resolve, 400));
+        continue;
+      }
+
+      console.log(`[browser] DeepSeek selected ${phase} target ${choice.candidateId}${choice.reason ? `: ${choice.reason}` : ''}`);
+      return choice;
+    } catch (error) {
+      console.log(`[browser] DeepSeek ${phase} selection error on attempt ${attempt}: ${error.message}`);
+      await new Promise(resolve => setTimeout(resolve, 400));
+    }
+  }
+
+  return null;
+}
+
+async function fillLoginCandidate(page, candidateId, value, isPassword = false) {
+  const result = await page.evaluate(({ id, text, password }) => {
+    const target = document.querySelector(`[data-copilot-login-candidate-id="${id}"]`);
+    if (!target) {
+      return false;
+    }
+
+    target.focus();
+    target.click();
+    target.value = '';
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+    target.dispatchEvent(new Event('change', { bubbles: true }));
+
+    if (password && target.getAttribute('type') !== 'password') {
+      // Continue anyway; some password fields are wrapped or dynamically managed.
+    }
+
+    target.value = text;
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+    target.dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  }, { id: candidateId, text: value, password: isPassword });
+
+  if (!result) {
+    throw new Error(`Could not fill login candidate ${candidateId}`);
+  }
+}
+
+async function clickLoginCandidate(page, candidateId) {
+  const clicked = await page.evaluate(id => {
+    const target = document.querySelector(`[data-copilot-login-candidate-id="${id}"]`);
+    if (!target) {
+      return false;
+    }
+
+    ['mouseover', 'mousedown', 'mouseup', 'click'].forEach(type => {
+      target.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, view: window }));
+    });
+
+    if (typeof target.click === 'function') {
+      target.click();
+    }
+
+    return true;
+  }, candidateId);
+
+  if (!clicked) {
+    throw new Error(`Could not click login candidate ${candidateId}`);
+  }
+}
+
+async function captureLoginDomSnapshot(page, phase) {
+  return page.evaluate(currentPhase => {
+    const CANDIDATE_ATTR = 'data-copilot-login-candidate-id';
+
+    document.querySelectorAll(`[${CANDIDATE_ATTR}]`).forEach(el => {
+      el.removeAttribute(CANDIDATE_ATTR);
+    });
+
+    const isVisible = el => {
+      if (!el) return false;
+      const style = window.getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+      return style.visibility !== 'hidden'
+        && style.display !== 'none'
+        && rect.width > 24
+        && rect.height > 16;
+    };
+
+    const textFor = el => [
+      el.getAttribute('aria-label') || '',
+      el.getAttribute('aria-placeholder') || '',
+      el.getAttribute('placeholder') || '',
+      el.getAttribute('name') || '',
+      el.getAttribute('id') || '',
+      el.getAttribute('autocomplete') || '',
+      el.getAttribute('value') || '',
+      el.getAttribute('data-testid') || '',
+      el.textContent || '',
+    ].join(' ').replace(/\s+/g, ' ').trim();
+
+    const isEnabled = el => !el.disabled && el.getAttribute('aria-disabled') !== 'true';
+
+    const summaryFor = el => {
+      const rect = el.getBoundingClientRect();
+      return {
+        tag: el.tagName.toLowerCase(),
+        type: el.getAttribute('type') || '',
+        role: el.getAttribute('role') || '',
+        idAttr: el.getAttribute('id') || '',
+        nameAttr: el.getAttribute('name') || '',
+        ariaLabel: el.getAttribute('aria-label') || '',
+        placeholder: el.getAttribute('placeholder') || el.getAttribute('aria-placeholder') || '',
+        autocomplete: el.getAttribute('autocomplete') || '',
+        text: textFor(el).slice(0, 180),
+        top: Math.round(rect.top),
+        left: Math.round(rect.left),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+      };
+    };
+
+    const candidates = currentPhase === 'login'
+      ? [...document.querySelectorAll('button, [role="button"], input[type="submit"], input[type="button"], div[role="button"], a[role="button"]')]
+      : [...document.querySelectorAll('input, textarea, [contenteditable="true"][role="textbox"], [contenteditable="true"]')];
+
+    const filtered = candidates
+      .filter(isVisible)
+      .filter(isEnabled)
+      .filter(el => {
+        const text = textFor(el).toLowerCase();
+        const type = (el.getAttribute('type') || '').toLowerCase();
+        const autocomplete = (el.getAttribute('autocomplete') || '').toLowerCase();
+        const id = (el.getAttribute('id') || '').toLowerCase();
+        const name = (el.getAttribute('name') || '').toLowerCase();
+
+        if (currentPhase === 'email') {
+          return type !== 'password' && (
+            text.includes('email')
+            || text.includes('phone')
+            || text.includes('mobile')
+            || text.includes('login')
+            || text.includes('username')
+            || autocomplete.includes('username')
+            || autocomplete.includes('email')
+            || id === 'email'
+            || name === 'email'
+            || name === 'login'
+          );
+        }
+
+        if (currentPhase === 'password') {
+          return type === 'password'
+            || text.includes('password')
+            || autocomplete.includes('current-password')
+            || id === 'pass'
+            || name === 'pass';
+        }
+
+        return text.includes('log in')
+          || text.includes('login')
+          || text.includes('sign in')
+          || text.includes('royal_login_button')
+          || id === 'loginbutton'
+          || name === 'login';
+      })
+      .slice(0, 40)
+      .map((el, index) => {
+        const id = `${currentPhase}-${index + 1}`;
+        el.setAttribute(CANDIDATE_ATTR, id);
+        return {
+          id,
+          ...summaryFor(el),
+        };
+      });
+
+    return {
+      page: {
+        title: document.title,
+        url: location.href,
+      },
+      candidates: filtered,
+    };
+  }, phase);
 }
 
 async function clearAndType(page, selector, value) {

@@ -154,7 +154,8 @@ async function runTestMode(accounts, accountId) {
             displayLabel: account.label,
             username: account.username,
             password: account.password,
-            manualLoginFallback: false,
+            manualLoginFallback: true,
+            loginTimeoutMs: 300000,
         }));
 
         const result = await testGroupSetup(page, account.groups[0]);
@@ -193,7 +194,8 @@ async function runAccountSlice(account, queue, config, remainingBudget) {
             displayLabel: account.label,
             username: account.username,
             password: account.password,
-            manualLoginFallback: false,
+            manualLoginFallback: true,
+            loginTimeoutMs: 300000,
         }));
     } catch (error) {
         addEvent(`Login failed for ${account.label}: ${error.message}`);
