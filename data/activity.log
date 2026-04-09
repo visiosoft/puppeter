@@ -37,3 +37,16 @@
 [2026-04-08T21:32:07.854Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame '92C29F874876A55B17AC92CC68A5A640'.
 [2026-04-08T21:34:00.379Z] SKIPPED | account=default | group=https://www.facebook.com/groups/3107984135917675 | reason=Attempted to use detached Frame 'A62685DA073841EB0582BE03C86D9624'.
 [2026-04-08T21:40:23.577Z] POSTED | account=default | group=https://www.facebook.com/groups/3107984135917675 | image=ef799400-2580-11f1-a6d7-71770282411f.png
+[2026-04-08T21:45:40.635Z] POSTED | account=default | group=https://www.facebook.com/groups/116785759019866 | image=ads2.png
+[2026-04-08T21:46:47.269Z] POSTED | account=test | group=https://www.facebook.com/groups/1082113493655330 | image=ads2.png
+[2026-04-08T21:56:10.088Z] POSTED | account=default | group=https://www.facebook.com/groups/119193998719316 | image=ads2.png
+[2026-04-08T21:57:19.221Z] POSTED | account=test | group=https://www.facebook.com/groups/3107984135917675 | image=ef799400-2580-11f1-a6d7-71770282411f.png
+[2026-04-08T21:59:09.697Z] SKIPPED | account=account-1775537989889-3 | group=https://www.facebook.com/groups/1082113493655330 | reason=Cannot read properties of undefined (reading 'startsWith')
+[2026-04-08T21:59:37.715Z] SKIPPED | account=default | group=https://www.facebook.com/groups/566819252406079 | reason=Attempted to use detached Frame 'A538BC49368D865838F6CA24A774850C'.
+[2026-04-08T22:02:36.077Z] SKIPPED | account=default | group=https://www.facebook.com/groups/566819252406079 | reason=Attempted to use detached Frame '85FE63165564CCDF26AD61C383002D68'.
+[2026-04-09T05:55:19.026Z] POSTED | account=default | group=https://www.facebook.com/groups/3107984135917675 | image=ads1.png
+[2026-04-09T05:56:30.380Z] POSTED | account=test | group=https://www.facebook.com/groups/1082113493655330 | image=ads2.png
+[2026-04-09T05:57:52.101Z] POSTED | account=default | group=https://www.facebook.com/groups/116785759019866 | image=ads2.png
+[2026-04-09T05:59:04.395Z] POSTED | account=test | group=https://www.facebook.com/groups/3107984135917675 | image=ef799400-2580-11f1-a6d7-71770282411f.png
+[2026-04-09T06:00:22.167Z] POSTED | account=default | group=https://www.facebook.com/groups/119193998719316 | image=ef799400-2580-11f1-a6d7-71770282411f.png
+[2026-04-09T06:00:32.907Z] SKIPPED | account=test | group=https://www.facebook.com/groups/116785759019866 | reason=Attempted to use detached Frame 'D3822656E16A182525345AC0D50F6F4B'.

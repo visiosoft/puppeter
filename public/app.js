@@ -105,11 +105,15 @@ if (accountsTableBody) {
         account[event.target.dataset.field] = event.target.value;
     });
 
-    accountsTableBody.addEventListener('click', event => {
+    accountsTableBody.addEventListener('click', async event => {
         const selectButton = event.target.closest('.select-account');
         if (selectButton) {
             if (selectButton.dataset.action === 'open-settings') {
-                selectAccount(selectButton.dataset.accountId, { navigate: true });
+                await withErrorHandling(async () => {
+                    selectAccount(selectButton.dataset.accountId);
+                    await saveConfig();
+                    window.location.href = '/settings.html';
+                });
                 return;
             }
 
@@ -194,6 +198,30 @@ window.addEventListener('load', async () => {
         }
     });
 });
+
+if (accountSelect) {
+    window.addEventListener('focus', () => {
+        void withErrorHandling(async () => {
+            await loadConfig();
+        }, false);
+    });
+
+    window.addEventListener('pageshow', () => {
+        void withErrorHandling(async () => {
+            await loadConfig();
+        }, false);
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible') {
+            return;
+        }
+
+        void withErrorHandling(async () => {
+            await loadConfig();
+        }, false);
+    });
+}
 
 function needsAppState() {
     return Boolean(accountsTableBody || accountSelect || saveConfigButton || startRunButton);
@@ -391,7 +419,7 @@ function syncConfigFromView() {
     const dashboardPortInput = document.getElementById('dashboardPortInput');
 
     if (sessionLimitInput) state.config.settings.sessionLimit = toPositiveInteger(sessionLimitInput.value, 10);
-    if (rotateEveryInput) state.config.settings.rotateEvery = toPositiveInteger(rotateEveryInput.value, 5);
+    if (rotateEveryInput) state.config.settings.rotateEvery = toPositiveInteger(rotateEveryInput.value, 1);
     if (delayMinInput) state.config.settings.delayMinMs = toPositiveInteger(delayMinInput.value, 45) * 1000;
     if (delayMaxInput) state.config.settings.delayMaxMs = toPositiveInteger(delayMaxInput.value, 120) * 1000;
     if (dashboardPortInput) state.config.settings.dashboardPort = toPositiveInteger(dashboardPortInput.value, 3010);

@@ -9,7 +9,7 @@ const POSTS_FILE = path.join(DATA_DIR, 'posts.txt');
 
 const DEFAULT_SETTINGS = {
     sessionLimit: 10,
-    rotateEvery: 5,
+    rotateEvery: 1,
     delayMinMs: 45000,
     delayMaxMs: 120000,
     dashboardPort: 3010,

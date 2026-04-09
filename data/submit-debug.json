@@ -1,6 +1,6 @@
 {
   "reason": "before_submit_selection",
-  "at": "2026-04-08T21:40:16.084Z",
+  "at": "2026-04-09T06:00:12.094Z",
   "rootSelector": "[data-copilot-post-root=\"true\"]",
   "editorSelector": "[data-copilot-post-editor=\"true\"]",
   "candidates": [
@@ -12,13 +12,13 @@
       "placeholder": "Create a public post…",
       "lexical": "true",
       "contenteditable": "true",
-      "text": "Create a public post… Fast & Flexible Van Rental – Weekly & Monthly",
-      "parentText": "Fast & Flexible Van Rental – Weekly & Monthly",
-      "context": "Create postPost anonymouslyMikasa ErenPublic groupFast & Flexible Van Rental – Weekly & MonthlyEditAdd to your postPost",
-      "top": 258,
+      "text": "Create a public post… https://cutt.ly/qtD2s8GL Reliable Van Rentals – Weekly & Monthly Options",
+      "parentText": "https://cutt.ly/qtD2s8GL Reliable Van Rentals – Weekly & Monthly Options",
+      "context": "Create postMikasa ErenPublic grouphttps://cutt.ly/qtD2s8GL Reliable Van Rentals – Weekly & Monthly OptionsEditAdd to your postPost",
+      "top": 192,
       "left": 398,
       "width": 448,
-      "height": 20
+      "height": 40
     },
     {
       "id": "submit-2",
@@ -30,8 +30,8 @@
       "contenteditable": "",
       "text": "Remove Post Attachment",
       "parentText": "",
-      "context": "Create postPost anonymouslyMikasa ErenPublic groupFast & Flexible Van Rental – Weekly & MonthlyEditAdd to your postPost",
-      "top": 314,
+      "context": "Create postMikasa ErenPublic grouphttps://cutt.ly/qtD2s8GL Reliable Van Rentals – Weekly & Monthly OptionsEditAdd to your postPost",
+      "top": 268,
       "left": 823,
       "width": 29,
       "height": 29
@@ -46,7 +46,7 @@
       "contenteditable": "",
       "text": "Post Post",
       "parentText": "Post",
-      "context": "Create postPost anonymouslyMikasa ErenPublic groupFast & Flexible Van Rental – Weekly & MonthlyEditAdd to your postPost",
+      "context": "Create postMikasa ErenPublic grouphttps://cutt.ly/qtD2s8GL Reliable Van Rentals – Weekly & Monthly OptionsEditAdd to your postPost",
       "top": 603,
       "left": 398,
       "width": 468,
@@ -54,7 +54,7 @@
     }
   ],
   "page": {
-    "title": "(20+) RENT A CAR DUBAI | Facebook",
-    "url": "https://www.facebook.com/groups/3107984135917675"
+    "title": "(20+) Rent a Car Dubai | Facebook",
+    "url": "https://www.facebook.com/groups/119193998719316"
   }
 }

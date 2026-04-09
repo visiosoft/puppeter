@@ -1,49 +1,56 @@
 {
   "https://www.facebook.com/groups/3107984135917675": {
-    "lastPostedDate": "2026-04-08",
-    "lastPostedAt": "2026-04-08T21:40:23.577Z",
-    "account": "default",
-    "postText": "Fast & Flexible Van Rental – Weekly & Monthly",
+    "lastPostedDate": "2026-04-09",
+    "lastPostedAt": "2026-04-09T05:59:04.395Z",
+    "account": "test",
+    "postText": "https://cutt.ly/qtD2s8GL Affordable Van Rentals – Weekly & Monthly Plans",
     "image": "ef799400-2580-11f1-a6d7-71770282411f.png",
     "accounts": {
       "default": {
-        "lastPostedDate": "2026-04-08",
-        "lastPostedAt": "2026-04-08T21:40:23.577Z",
+        "lastPostedDate": "2026-04-09",
+        "lastPostedAt": "2026-04-09T05:55:19.026Z",
         "account": "default",
-        "postText": "Fast & Flexible Van Rental – Weekly & Monthly",
+        "postText": "https://cutt.ly/qtD2s8GL  Flexible Van Rentals – Available Weekly or Monthly",
+        "image": "ads1.png"
+      },
+      "test": {
+        "lastPostedDate": "2026-04-09",
+        "lastPostedAt": "2026-04-09T05:59:04.395Z",
+        "account": "test",
+        "postText": "https://cutt.ly/qtD2s8GL Affordable Van Rentals – Weekly & Monthly Plans",
         "image": "ef799400-2580-11f1-a6d7-71770282411f.png"
       }
     }
   },
   "https://www.facebook.com/groups/116785759019866": {
-    "lastPostedDate": "2026-04-07",
-    "lastPostedAt": "2026-04-07T05:29:26.557Z",
+    "lastPostedDate": "2026-04-09",
+    "lastPostedAt": "2026-04-09T05:57:52.101Z",
     "account": "default",
-    "postText": "Short & Long-Term Van Rental Services (Weekly/Monthly)",
-    "image": "ads1.png",
+    "postText": "https://cutt.ly/qtD2s8GL  Affordable Van Rentals – Weekly & Monthly Plans",
+    "image": "ads2.png",
     "accounts": {
       "default": {
-        "lastPostedDate": "2026-04-07",
-        "lastPostedAt": "2026-04-07T05:29:26.557Z",
+        "lastPostedDate": "2026-04-09",
+        "lastPostedAt": "2026-04-09T05:57:52.101Z",
         "account": "default",
-        "postText": "Short & Long-Term Van Rental Services (Weekly/Monthly)",
-        "image": "ads1.png"
+        "postText": "https://cutt.ly/qtD2s8GL  Affordable Van Rentals – Weekly & Monthly Plans",
+        "image": "ads2.png"
       }
     }
   },
   "https://www.facebook.com/groups/119193998719316": {
-    "lastPostedDate": "2026-04-07",
-    "lastPostedAt": "2026-04-07T05:31:45.232Z",
+    "lastPostedDate": "2026-04-09",
+    "lastPostedAt": "2026-04-09T06:00:22.167Z",
     "account": "default",
-    "postText": "Rent a Van Weekly or Monthly – Easy & Convenient",
-    "image": "ads2.png",
+    "postText": "https://cutt.ly/qtD2s8GL  Reliable Van Rentals – Weekly & Monthly Options",
+    "image": "ef799400-2580-11f1-a6d7-71770282411f.png",
     "accounts": {
       "default": {
-        "lastPostedDate": "2026-04-07",
-        "lastPostedAt": "2026-04-07T05:31:45.232Z",
+        "lastPostedDate": "2026-04-09",
+        "lastPostedAt": "2026-04-09T06:00:22.167Z",
         "account": "default",
-        "postText": "Rent a Van Weekly or Monthly – Easy & Convenient",
-        "image": "ads2.png"
+        "postText": "https://cutt.ly/qtD2s8GL  Reliable Van Rentals – Weekly & Monthly Options",
+        "image": "ef799400-2580-11f1-a6d7-71770282411f.png"
       }
     }
   },
@@ -60,6 +67,22 @@
         "account": "default",
         "postText": "Flexible Van Hire – Weekly and Monthly Packages",
         "image": "ef799400-2580-11f1-a6d7-71770282411f.png"
+      }
+    }
+  },
+  "https://www.facebook.com/groups/1082113493655330": {
+    "lastPostedDate": "2026-04-09",
+    "lastPostedAt": "2026-04-09T05:56:30.380Z",
+    "account": "test",
+    "postText": "https://cutt.ly/qtD2s8GL Flexible Van Rentals – Available Weekly or Monthly",
+    "image": "ads2.png",
+    "accounts": {
+      "test": {
+        "lastPostedDate": "2026-04-09",
+        "lastPostedAt": "2026-04-09T05:56:30.380Z",
+        "account": "test",
+        "postText": "https://cutt.ly/qtD2s8GL Flexible Van Rentals – Available Weekly or Monthly",
+        "image": "ads2.png"
       }
     }
   }

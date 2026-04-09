@@ -24,7 +24,7 @@
     "contenteditable": "",
     "text": "post"
   },
-  "updatedAt": "2026-04-08T21:40:23.574Z",
+  "updatedAt": "2026-04-09T06:00:22.165Z",
   "attachmentPattern": {
     "inputSelector": "input[type=\"file\"][accept*=\"image\"]"
   },
